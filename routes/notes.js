@@ -20,10 +20,11 @@ api.post('/', (req,res) => {
             id: uuid()
         }
 //read the contens of the database file / write the update data back to the database file 
-        fs.readFile('./db/db.json', 'utf-8',(data) => {
+        fs.readFile('./db/db.json', 'utf-8',(err,data) => {
             const oldDataArr = JSON.parse(data);
             oldDataArr.push(newNote);
-            fs.writeFile('./db/db.json', JSON.stringify(oldDataArr, null, '\t'))
+            fs.writeFile('./db/db.json', JSON.stringify(oldDataArr, null, '\t'), (err) =>
+            err ? res.status(500).json('There has been an error in posting the note') : res.end())
         })
     } else {
         console.log('There has been an error processing the request')
@@ -40,7 +41,9 @@ api.delete('/:id', (req,res) => {
     }
 //update the database wit hthe notes to be kept 
     database = notesKept;
-    fs.writeFileSync('./db/db,json', JSON.stringify(database,null, '\t'))
+    fs.writeFileSync('./db/db,json', JSON.stringify(database,null, '\t'), (err) => {
+        err ? res.status(500).json('There has been an error in deleting this note') : res.end()
+    })
     res.json(database);
 })
 
