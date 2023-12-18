@@ -1,6 +1,6 @@
 //import required modules
 const api = require ('express').Router();
-const uuid = require('../lib/uuid');
+const uuid = require('../helper/uuid');
 const fs = require('fs');
 let database = require('../db/db.json');
 

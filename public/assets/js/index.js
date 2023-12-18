@@ -20,7 +20,7 @@ const show = (elem) => {
   elem.style.display = 'inline';
 };
 
-// Hide an element
+// // Hide an element
 const hide = (elem) => {
   elem.style.display = 'none';
 };
