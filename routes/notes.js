@@ -26,3 +26,17 @@ api.post('/', (req,res) => {
     }
 })
 
+api.delete('/:id', (req,res) => {
+    let notesKept = [];
+    for (let i=0; i<database.length; i++) {
+        if (database[i].id != req.params.id) {
+            notesKept.push(database[i]);
+        }
+    }
+
+    database = notesKept;
+    fs.writeFileSync('./db/db,json', JSON.stringify(database,null, '\t'))
+    res.json(database);
+})
+
+module.exports = api;
