@@ -36,24 +36,44 @@ api.post('/', (req,res) => {
 })
 
 // Handles the delete request to delete a note by id
+// api.delete('/:id', (req, res) => {
+//     const noteIdsToDelete = Array.isArray(req.params.id) ? req.params.id : [req.params.id];
+//     // Filter out the note with the specified id
+//     let notesKept = database.filter((note) => !noteIdsToDelete.includes(note.id));
+
+//     // Update the database with the notes to be kept
+//     database = notesKept;
+
+//     // Write the updated database to the file
+//     fs.writeFile('./db/db.json', JSON.stringify(database, null, '\t'), (err) => {
+//         if (err) {
+//             // If there is an error, send a 500 Internal Server Error response
+//             res.status(500).json('There has been an error in deleting this note');
+//         } else {
+//             // If successful, send a JSON response with the updated database
+//             res.json(database);
+//         }
+//     });
+// });
+
 api.delete('/:id', (req, res) => {
-    // Filter out the note with the specified id
-    let notesKept = database.filter((note) => note.id !== req.params.id);
-
-    // Update the database with the notes to be kept
-    database = notesKept;
-
-    // Write the updated database to the file
-    fs.writeFile('./db/db.json', JSON.stringify(database, null, '\t'), (err) => {
-        if (err) {
-            // If there is an error, send a 500 Internal Server Error response
-            res.status(500).json('There has been an error in deleting this note');
-        } else {
-            // If successful, send a JSON response with the updated database
-            res.json(database);
+    let notesToKeep = [];
+    for (let i = 0; i < database.length; i++) {
+        if (database[i].id != req.params.id) {
+            notesToKeep.push(database[i]);
         }
-    });
+    }
+
+    database = notesToKeep;
+
+    try {
+        fs.writeFileSync('./db/db.json', JSON.stringify(database, null, '\t'));
+        res.json(database);
+    } catch (err) {
+        res.status(500).json('Error in deleting note');
+    }
 });
+
 
 //exports the configured API router for use in other parts of the application 
 module.exports = api;
