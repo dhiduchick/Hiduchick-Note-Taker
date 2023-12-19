@@ -2,5 +2,10 @@
 	{
 		"title": "Example Note",
 		"text": "Example note display"
+	},
+	{
+		"title": "Note 2",
+		"text": "Note 2 ",
+		"id": "ecb9"
 	}
 ]
