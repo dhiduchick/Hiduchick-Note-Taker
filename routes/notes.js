@@ -4,9 +4,13 @@ const uuid = require('../helper/uuid');
 const fs = require('fs');
 let database = require('../db/db.json');
 
+const util = require('util')
+const readFileAsync = util.promisify(fs.readFile);
+
+
 //handle get request to retrieve all notes
 api.get('/', (req,res) => {
-    fs.readFile('./db/db.json', 'utf-8', (data) => res.json(JSON.parse(data)))
+    fs.readFileSync('./db/db.json', 'utf-8', (err,data) => res.json(JSON.parse(data)))
 })
 
 

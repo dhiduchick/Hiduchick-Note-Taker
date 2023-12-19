@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 //adding middleware 
 app.use(express.json());
 app.use(express.static('public'));
-app.use('./api', api)
+app.use('/api', api)
 
 //define a route for serving the notes.html file 
 app.get('/notes', (req,res) => 
