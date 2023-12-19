@@ -10,7 +10,7 @@ const readFileAsync = util.promisify(fs.readFile);
 
 //handle get request to retrieve all notes
 api.get('/', (req,res) => {
-    fs.readFileSync('./db/db.json', 'utf-8', (err,data) => res.json(JSON.parse(data)))
+    readFileAsync('./db/db.json', 'utf-8', (err, data) => res.json(JSON.parse(data)))
 })
 
 
@@ -24,7 +24,7 @@ api.post('/', (req,res) => {
             id: uuid()
         }
 //read the contens of the database file / write the update data back to the database file 
-        fs.readFile('./db/db.json', 'utf-8',(err,data) => {
+        fs.readFile('./db/db.json', 'utf-8',(err, data) => {
             const oldDataArr = JSON.parse(data);
             oldDataArr.push(newNote);
             fs.writeFile('./db/db.json', JSON.stringify(oldDataArr, null, '\t'), (err) =>
